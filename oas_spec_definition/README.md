@@ -4,4 +4,4 @@ https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md
 
 https://editor.swagger.io/
 
-go api server boiler plate model and route code is automatically code generated upon commit to go-auth-api.yaml in this repo
+go api server boiler plate model and route code and go client calling code is auto generated upon commit to the go-auth-api.yaml spec in this repository
