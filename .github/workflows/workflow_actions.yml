@@ -21,7 +21,7 @@ jobs:
         shell: bash
         run: ls -la
       - name: Execute go-server codegen
-        run: ./openapi-generator-cli generate -i ./oas_spec_definition/go-auth-api.yaml -g go-server -o ./ -ppackageName=goauthapi --git-user-id=bebo-dot-dev --git-repo-id=go-auth-api
+        run: ./openapi-generator-cli generate -i ./oas_spec_definition/go-auth-api.yaml -g go-server -o ./server -ppackageName=goauthapi --git-user-id=bebo-dot-dev --git-repo-id=go-auth-api
       - name: Execute go client codegen
         run: ./openapi-generator-cli generate -i ./oas_spec_definition/go-auth-api.yaml -g go -o ./client -ppackageName=client --git-user-id=bebo-dot-dev --git-repo-id=go-auth-api
       - name: List the contents of the workflow action working dir
