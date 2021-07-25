@@ -1,0 +1,140 @@
+--- 
+openapi: 3.0.0
+info:
+  title: User API
+  description: An API for creating and authenticating system users
+  contact:
+    email: joe@bebo.dev
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.1.0
+servers:
+- url: http://localhost:8080
+  description: localhost test endpoint
+tags:
+- name: Auth API
+  description: API operations
+paths:
+  /ping:
+    get:
+      tags:
+      - Auth API
+      summary: tests this api
+      description: returns the hostname of the server running this service
+      operationId: ping
+      responses:
+        "201":
+          description: server responded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PingResponse'
+  /addAccount:
+    put:
+      tags:
+      - Auth API
+      summary: adds a new account
+      description: Adds a new user account to the system
+      operationId: addAccount
+      requestBody:
+        description: the user account to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserAccountDetails'
+      responses:
+        "201":
+          description: StatusCreated, user account created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewUserAccount'
+        "400":
+          description: StatusBadRequest
+        "409":
+          description: StatusConflict, a user with the supplied username already exists
+  /authenticate:
+    post:
+      tags:
+      - Auth API
+      summary: authenticates an existing user
+      description: Authenticates a user with the system
+      operationId: authenticateUser
+      requestBody:
+        description: the user to authenticate
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCredentials'
+      responses:
+        "202":
+          description: StatusAccepted, user authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExistingUserAccount'
+        "400":
+          description: StatusBadRequest
+        "401":
+          description: StatusUnauthorized, not authenticated
+components:
+  schemas:
+    PingResponse:
+      required:
+      - hostname
+      type: object
+      properties:
+        hostname:
+          type: string
+          example: localhost
+    UserAccountDetails:
+      required:
+      - accountType
+      - username
+      - password
+      type: object
+      properties:
+        accountType:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: joe
+        password:
+          type: string
+          example: password
+    NewUserAccount:
+      required:
+      - id
+      - created
+      properties:
+        id:
+          type: integer
+          example: 123
+        created:
+          type: boolean
+          example: true
+    ExistingUserAccount:
+      required:
+      - id
+      - authenticated
+      properties:
+        id:
+          type: integer
+          example: 123
+        authenticated:
+          type: boolean
+          example: true
+    UserCredentials:
+      required:
+      - username
+      - password
+      type: object
+      properties:
+        username:
+          type: string
+          example: joe
+        password:
+          type: string
+          example: password
