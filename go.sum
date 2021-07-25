@@ -1,5 +1,7 @@
 github.com/bebo-dot-dev/go-auth-api-v2/server v0.0.0-20210725071728-c621756056b9 h1:O/3Pl6yc6lO7NwZ7cMtV4TTy63OwxQdNqXdVan8IBt4=
 github.com/bebo-dot-dev/go-auth-api-v2/server v0.0.0-20210725071728-c621756056b9/go.mod h1:w/vxKkcb7O7lIiheAdO64sF36/qPbuisX0jZxPtzkkU=
+github.com/bebo-dot-dev/go-auth-api-v2/server v0.0.0-20210725073840-2b629c70611c h1:AgDOxnsEcaMMW1TYw37WRtW4+teitdUI4BNX+t2ZsUE=
+github.com/bebo-dot-dev/go-auth-api-v2/server v0.0.0-20210725073840-2b629c70611c/go.mod h1:w/vxKkcb7O7lIiheAdO64sF36/qPbuisX0jZxPtzkkU=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/felixge/httpsnoop v1.0.1 h1:lvB5Jl89CsZtGIWuTcDM1E/vkVs49/Ml7JJe07l8SPQ=
