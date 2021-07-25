@@ -3,14 +3,14 @@ package main
 import (
     "context"
     "fmt"
-    goauthapi "github.com/bebo-dot-dev/go-auth-api-v2/client"
+    client "github.com/bebo-dot-dev/go-auth-api-v2/client"
     "os"
 )
 
 func main() {
 
-    configuration := goauthapi.NewConfiguration()
-    apiClient := goauthapi.NewAPIClient(configuration)
+    configuration := client.NewConfiguration()
+    apiClient := client.NewAPIClient(configuration)
     resp, r, err := apiClient.AuthAPIApi.Ping(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AuthAPIApi.Ping``: %v\n", err)
