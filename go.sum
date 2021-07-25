@@ -35,6 +35,8 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/bebo-dot-dev/go-auth-api-v2/client v0.0.0-20210725081005-951a656f572f h1:VfWdG2R0nX6hpCAdIvIVpIPOSYYc4vJ3yM9MT82t/R8=
 github.com/bebo-dot-dev/go-auth-api-v2/client v0.0.0-20210725081005-951a656f572f/go.mod h1:zLUErL0Brs9pXMHiVivE9CRcMgjo8jFbnTA0QJAzDbc=
+github.com/bebo-dot-dev/go-auth-api-v2/client v0.0.0-20210725093951-fe567b09fe4b h1:C95FhCBQMv7VqvuLts5LFbwNaKM7YUAwv0SF9i6XVdU=
+github.com/bebo-dot-dev/go-auth-api-v2/client v0.0.0-20210725093951-fe567b09fe4b/go.mod h1:zLUErL0Brs9pXMHiVivE9CRcMgjo8jFbnTA0QJAzDbc=
 github.com/bebo-dot-dev/go-auth-api-v2/server v0.0.0-20210725071728-c621756056b9 h1:O/3Pl6yc6lO7NwZ7cMtV4TTy63OwxQdNqXdVan8IBt4=
 github.com/bebo-dot-dev/go-auth-api-v2/server v0.0.0-20210725071728-c621756056b9/go.mod h1:w/vxKkcb7O7lIiheAdO64sF36/qPbuisX0jZxPtzkkU=
 github.com/bebo-dot-dev/go-auth-api-v2/server v0.0.0-20210725073840-2b629c70611c h1:AgDOxnsEcaMMW1TYw37WRtW4+teitdUI4BNX+t2ZsUE=
