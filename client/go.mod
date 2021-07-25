@@ -1,4 +1,4 @@
-module github.com/bebo-dot-dev/go-auth-api
+module github.com/bebo-dot-dev/go-auth-api-v2/client
 
 go 1.13
 

@@ -12,14 +12,41 @@ package goauthapi
 
 import (
 	"context"
+	"database/sql"
+	"fmt"
+	_ "github.com/lib/pq"
 	"net/http"
-	"errors"
+	"os"
 )
 
-// AuthAPIApiService is a service that implents the logic for the AuthAPIApiServicer
-// This service should implement the business logic for every endpoint for the AuthAPIApi API. 
+const (
+	dbhost = "localhost"
+	dbport = 5432
+	dbuser = "postgres"
+	dbname = "auth_data"
+)
+
+// AuthAPIApiService is a service that implements the logic for the AuthAPIApiServicer
+// This service should implement the business logic for every endpoint for the AuthAPIApi API.
 // Include any external packages or services that will be required by this service.
 type AuthAPIApiService struct {
+}
+
+func (s *AuthAPIApiService) getDbConnection() *sql.DB {
+	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+		dbhost, dbport, dbuser, os.Getenv("POSTGRES_PASSWORD"), dbname)
+
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+
+	return db
 }
 
 // NewAuthAPIApiService creates a default api service
@@ -29,46 +56,63 @@ func NewAuthAPIApiService() AuthAPIApiServicer {
 
 // AddAccount - adds a new account
 func (s *AuthAPIApiService) AddAccount(ctx context.Context, userAccountDetails UserAccountDetails) (ImplResponse, error) {
-	// TODO - update AddAccount with the required logic for this service method.
-	// Add api_auth_api_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+	err := userAccountDetails.Validate()
+	if err != nil {
+		return Response(http.StatusBadRequest, nil), err
+	}
 
-	//TODO: Uncomment the next line to return response Response(201, NewUserAccount{}) or use other options such as http.Ok ...
-	//return Response(201, NewUserAccount{}), nil
+	db := s.getDbConnection()
+	defer db.Close()
 
-	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	var newUserId sql.NullInt32
+	err = db.QueryRow("SELECT public.add_account($1, $2, $3);", userAccountDetails.AccountType, userAccountDetails.Username, userAccountDetails.Password).Scan(&newUserId)
+	if err != nil {
+		return Response(http.StatusInternalServerError, nil), err
+	}
 
-	//TODO: Uncomment the next line to return response Response(409, {}) or use other options such as http.Ok ...
-	//return Response(409, nil),nil
+	if !newUserId.Valid {
+		// the new user was not created, a user with the supplied userAccountDetails.Username already exists in the db
+		return Response(http.StatusConflict, nil), err
+	}
 
-	return Response(http.StatusNotImplemented, nil), errors.New("AddAccount method not implemented")
+	return Response(http.StatusCreated, NewUserAccount{Id: newUserId.Int32}), nil
 }
 
-// AuthenticateUser - authenticates an existing user
+// AuthenticateUser -
 func (s *AuthAPIApiService) AuthenticateUser(ctx context.Context, userCredentials UserCredentials) (ImplResponse, error) {
-	// TODO - update AuthenticateUser with the required logic for this service method.
-	// Add api_auth_api_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+	err := userCredentials.Validate()
+	if err != nil {
+		return Response(http.StatusBadRequest, nil), err
+	}
 
-	//TODO: Uncomment the next line to return response Response(202, ExistingUserAccount{}) or use other options such as http.Ok ...
-	//return Response(202, ExistingUserAccount{}), nil
+	db := s.getDbConnection()
+	defer db.Close()
 
-	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
-
-	//TODO: Uncomment the next line to return response Response(401, {}) or use other options such as http.Ok ...
-	//return Response(401, nil),nil
-
-	return Response(http.StatusNotImplemented, nil), errors.New("AuthenticateUser method not implemented")
+	var userId sql.NullInt32
+	var authenticated sql.NullBool
+	err = db.QueryRow("SELECT account_id, authenticated FROM public.authenticate($1, $2);", userCredentials.Username, userCredentials.Password).Scan(&userId, &authenticated)
+	if err != nil {
+		return Response(http.StatusInternalServerError, nil), err
+	}
+	userAccount := ExistingUserAccount{}
+	if userId.Valid {
+		userAccount.Id = userId.Int32
+		if authenticated.Valid {
+			userAccount.Authenticated = authenticated.Bool
+			return Response(http.StatusAccepted, userAccount), nil
+		} else {
+			return Response(http.StatusUnauthorized, userAccount), nil
+		}
+	} else {
+		return Response(http.StatusUnauthorized, userAccount), nil
+	}
 }
 
 // Ping - tests this api
 func (s *AuthAPIApiService) Ping(ctx context.Context) (ImplResponse, error) {
-	// TODO - update Ping with the required logic for this service method.
-	// Add api_auth_api_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-
-	//TODO: Uncomment the next line to return response Response(201, PingResponse{}) or use other options such as http.Ok ...
-	//return Response(201, PingResponse{}), nil
-
-	return Response(http.StatusNotImplemented, nil), errors.New("Ping method not implemented")
+	hostname, err := os.Hostname()
+	if err != nil {
+		return Response(http.StatusInternalServerError, nil), err
+	}
+	return Response(http.StatusCreated, PingResponse{Hostname: hostname}), nil
 }
-

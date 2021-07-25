@@ -11,6 +11,5 @@
 package goauthapi
 
 type PingResponse struct {
-
 	Hostname string `json:"hostname"`
 }
