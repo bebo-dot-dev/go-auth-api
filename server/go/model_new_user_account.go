@@ -11,7 +11,6 @@
 package goauthapi
 
 type NewUserAccount struct {
-
 	Id int32 `json:"id"`
 
 	Created bool `json:"created"`

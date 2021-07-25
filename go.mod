@@ -1,13 +1,8 @@
 module github.com/bebo-dot-dev/go-auth-api-v2
 
-go 1.13
+go 1.16
 
 require (
-	github.com/go-playground/universal-translator v0.17.0 // indirect
-	github.com/go-playground/validator v9.31.0+incompatible
+	github.com/bebo-dot-dev/go-auth-api-v2/server v0.0.0-20210725071728-c621756056b9
 	github.com/gorilla/handlers v1.5.1
-	github.com/gorilla/mux v1.7.3
-	github.com/leodido/go-urn v1.2.1 // indirect
-	github.com/lib/pq v1.10.2
-	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 )

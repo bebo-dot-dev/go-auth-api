@@ -11,7 +11,7 @@
 package main
 
 import (
-	goauthapi "github.com/bebo-dot-dev/go-auth-api/go"
+	goauthapi "github.com/bebo-dot-dev/go-auth-api-v2/server/go"
 	"github.com/gorilla/handlers"
 	"log"
 	"net/http"
