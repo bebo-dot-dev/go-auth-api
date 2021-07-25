@@ -23,7 +23,9 @@
 #!docs/README.md
 go.mod
 go.sum
+client/go.mod
+client/go.sum
 main.go
-go/api_auth_api_service.go
-go/model_user_account_details.go
-go/model_user_credentials.go
+server/api_auth_api_service.go
+server/model_user_account_details.go
+server/model_user_credentials.go
