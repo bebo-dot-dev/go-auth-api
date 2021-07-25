@@ -1,0 +1,38 @@
+name: actions
+
+on:
+  push:
+    paths:
+    - 'oas_spec_definition/*.yaml'
+
+jobs:
+  codegen-go-server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Setup the latest openapi-generator-cli
+        shell: bash
+        run: curl https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/bin/utils/openapi-generator-cli.sh > ./openapi-generator-cli && chmod u+x ./openapi-generator-cli
+      - name: List the contents of the workflow action working dir
+        shell: bash
+        run: ls -la
+      - name: Execute go-server codegen
+        run: ./openapi-generator-cli generate -i ./oas_spec_definition/go-auth-api.yaml -g go-server -o ./ -ppackageName=goauthapi --git-user-id=bebo-dot-dev --git-repo-id=go-auth-api
+      - name: Execute go client codegen
+        run: ./openapi-generator-cli generate -i ./oas_spec_definition/go-auth-api.yaml -g go -o ./client -ppackageName=client --git-user-id=bebo-dot-dev --git-repo-id=go-auth-api
+      - name: List the contents of the workflow action working dir
+        run: ls -la      
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+      - name: Format generated Go code
+        shell: bash
+        run: go fmt ./...
+      - name: Commit generated Go code
+        shell: bash
+        run: git config --global user.email "joe@bebo.dev" && git config --global user.name "Joe" && git fetch --all && git add -A && git commit -m "automated codegen commit" && git pull --rebase && git push
