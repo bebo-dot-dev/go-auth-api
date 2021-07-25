@@ -91,10 +91,16 @@ func (s *AuthAPIApiService) AuthenticateUser(ctx context.Context, userCredential
 	var userId sql.NullInt32
 	var authenticated sql.NullBool
 	err = db.QueryRow("SELECT account_id, authenticated FROM public.authenticate($1, $2);", userCredentials.Username, userCredentials.Password).Scan(&userId, &authenticated)
-	if err != nil {
-		return Response(http.StatusInternalServerError, nil), err
-	}
+
 	userAccount := ExistingUserAccount{}
+	if err != nil {
+		if err != sql.ErrNoRows {
+			return Response(http.StatusInternalServerError, nil), err
+		} else {
+			return Response(http.StatusUnauthorized, userAccount), nil
+		}
+	}
+
 	if userId.Valid {
 		userAccount.Id = userId.Int32
 		if authenticated.Valid {
