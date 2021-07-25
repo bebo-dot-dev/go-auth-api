@@ -10,15 +10,9 @@
 
 package goauthapi
 
-import "github.com/go-playground/validator"
-
 type UserCredentials struct {
-	Username string `json:"username" validate:"required"`
 
-	Password string `json:"password" validate:"required"`
-}
+	Username string `json:"username"`
 
-func (u *UserCredentials) Validate() error {
-	validate := validator.New()
-	return validate.Struct(u)
+	Password string `json:"password"`
 }

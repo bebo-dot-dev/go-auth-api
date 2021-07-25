@@ -14,6 +14,8 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 // A AuthAPIApiController binds http requests to an api service and writes the service results to the http response
@@ -28,7 +30,7 @@ func NewAuthAPIApiController(s AuthAPIApiServicer) Router {
 
 // Routes returns all of the api route for the AuthAPIApiController
 func (c *AuthAPIApiController) Routes() Routes {
-	return Routes{
+	return Routes{ 
 		{
 			"AddAccount",
 			strings.ToUpper("Put"),

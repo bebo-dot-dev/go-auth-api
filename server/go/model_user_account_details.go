@@ -10,17 +10,11 @@
 
 package goauthapi
 
-import "github.com/go-playground/validator"
-
 type UserAccountDetails struct {
-	AccountType int32 `json:"accountType" validate:"gt=0,lte=3"`
 
-	Username string `json:"username" validate:"required"`
+	AccountType int32 `json:"accountType"`
 
-	Password string `json:"password" validate:"required"`
-}
+	Username string `json:"username"`
 
-func (u *UserAccountDetails) Validate() error {
-	validate := validator.New()
-	return validate.Struct(u)
+	Password string `json:"password"`
 }

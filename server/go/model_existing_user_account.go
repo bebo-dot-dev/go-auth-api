@@ -11,6 +11,7 @@
 package goauthapi
 
 type ExistingUserAccount struct {
+
 	Id int32 `json:"id"`
 
 	Authenticated bool `json:"authenticated"`
