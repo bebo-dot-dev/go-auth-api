@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	client "github.com/bebo-dot-dev/go-auth-api-v2/client"
+	client "github.com/bebo-dot-dev/go-auth-api/client"
 	"os"
 )
 
